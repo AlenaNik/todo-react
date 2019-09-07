@@ -8,6 +8,10 @@
   text-align: left;
 }
 
+.error {
+  color:red;
+}
+
 input {
   font-size: 20px
 }

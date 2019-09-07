@@ -12,10 +12,12 @@ class App extends Component {
         {id: 2, name: 'Build an app', isComplete: false},
         {id: 3, name: 'Ship it', isComplete: false}
       ],
-      currentTodo: ''
+      currentTodo: '',
+      errorMessage: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleEmptySubmit = this.handleSubmit.bind(this)
   }
 handleSubmit(e) {
 e.preventDefault()
@@ -27,6 +29,14 @@ e.preventDefault()
     currentTodo: ''
   })
   }
+
+  handleEmptySubmit(e) {
+    e.preventDefault()
+    this.setState({
+      errorMessage: 'Please supply a todo name'
+    })
+  }
+
   handleInputChange (e) {
     this.setState({
       currentTodo: e.target.value
@@ -34,12 +44,14 @@ e.preventDefault()
   }
 
   render() {
+    const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit
     return (
         <div>
           <div className="Todo-App">
+            {this.state.errorMessage && <span className='error'>{this.state.errorMessage}</span>}
             <TodoForm handleInputChange={this.handleInputChange}
                       currentTodo={this.state.currentTodo}
-                      handleSubmit={this.handleSubmit}
+                      handleSubmit={submitHandler}
             />
                       <TodoList todos={this.state.todos}/>
           </div>
